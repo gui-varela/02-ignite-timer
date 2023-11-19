@@ -1,17 +1,18 @@
+import { differenceInSeconds } from 'date-fns'
 import {
-  ReactNode,
   createContext,
+  ReactNode,
   useEffect,
   useReducer,
   useState,
 } from 'react'
-import { Cycle, cyclesReducer } from '../reducers/cycles/reducer'
 import {
+  ActionTypes,
   addNewCycleAction,
   interruptCurrentCycleAction,
   markCurrentCycleAsFinishedAction,
 } from '../reducers/cycles/actions'
-import { differenceInSeconds } from 'date-fns'
+import { Cycle, cyclesReducer } from '../reducers/cycles/reducer'
 
 interface CreateCycleData {
   task: string
@@ -64,6 +65,7 @@ export function CyclesContextProvider({
     if (activeCycle) {
       return differenceInSeconds(new Date(), new Date(activeCycle.startDate))
     }
+
     return 0
   })
 
@@ -78,7 +80,7 @@ export function CyclesContextProvider({
   }
 
   function markCurrentCycleAsFinished() {
-    dispatch(markCurrentCycleAsFinishedAction)
+    dispatch(markCurrentCycleAsFinishedAction())
   }
 
   function createNewCycle(data: CreateCycleData) {
@@ -97,7 +99,7 @@ export function CyclesContextProvider({
   }
 
   function interruptCurrentCycle() {
-    dispatch(interruptCurrentCycleAction)
+    dispatch(interruptCurrentCycleAction())
   }
 
   return (
